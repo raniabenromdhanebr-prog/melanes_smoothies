@@ -1,6 +1,5 @@
 # Import python packages.
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 
 # Write directly to the app.
@@ -13,7 +12,8 @@ st.write(
 name=st.text_input('name on the smooth')
 st.write('the name on your smooth will be ', name)
 
-session = get_active_session()
+cnx=st.connection("snowflake")
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 #st.dataframe(data=my_dataframe, use_container_width=True)
 list =st.multiselect('Choose up to 5 ingred'
